@@ -13,6 +13,7 @@ const connector = new Sequelize(dbName, dbUser, dbPassword, {
 connector.authenticate().then(() => {
   console.log('Connection has been established successfully.');
 }).catch(err => {
+  console.log(`DB_NAME:${dbName},DB_HOST:${dbHost},DB_USER:${dbUser},DB_PASSWORD:${dbPassword}`);
   console.error('Unable to connect to the database:', err);
 });
 
