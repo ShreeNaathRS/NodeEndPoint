@@ -4,8 +4,8 @@ const cors = require('cors');
 
 const app = express();
 
-var allowedOrigins = ['http://localhost:4200',
-                      'http://localhost:3200'];
+var allowedOrigins = ['https://dbsampleangular.herokuapp.com/',
+                      'https://dbsamplenode.herokuapp.com/'];
 app.use(cors({
   origin: function(origin, callback){
     if(!origin) return callback(null, true);
