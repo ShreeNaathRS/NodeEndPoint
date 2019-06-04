@@ -25,8 +25,8 @@ async function create(req, res, next) {
       res.setHeader('Access-Control-Allow-Origin', '*');
       const reqBody = req.body;
       const { name, password } = reqBody;
-      const post = await Create.create({ name, password });
-      res.json({data: post});
+      const user = await Create.create({ name, password });
+      res.json({data: user});
     } catch (error) {
       console.log('log res : '+res);
       console.log('log error : '+error);
@@ -34,4 +34,53 @@ async function create(req, res, next) {
     }
   }
 
-module.exports = {Create, create};
+  async function list(req, res, next) {
+    try {
+      const users = await Create.findAll();
+      res.json({ data: users });
+    } catch (error) {
+      next(error);
+    }
+  }
+  
+  async function show(req, res, next) {
+    try {
+      const userId = req.params.id;
+      const user = await Create.findOne({ where: { id: userId } });
+      res.json({ data: user });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async function update(req, res, next) {
+    try {
+      const reqBody = req.body;
+      const { name, password } = reqBody;
+      Create.update({
+        password : password,
+        name : name
+      },{
+        where : {id:req.params.id}
+      });
+      res.json({status:true});
+    } catch (error) {
+      next(error);
+    }
+  }
+  
+  async function destroy(req, res, next) {
+    try {
+      Create.destroy({
+        where : {
+          id : req.params.id
+        }
+      });
+      res.json({status:true});
+    } catch (error) {
+      next(error);
+    }
+  }
+
+module.exports = {Create, create, destroy, update, show, list};
+
